@@ -1,0 +1,29 @@
+/* Utility */
+a {
+  color: rgb(23, 121, 186);
+}
+
+/* Footer */
+footer ul {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+footer li {
+  float: left;
+}
+
+footer li a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+footer li a:hover {
+  text-decoration: none;
+  border-left: 2px solid black;
+}
