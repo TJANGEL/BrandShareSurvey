@@ -27,3 +27,19 @@ footer li a:hover {
   text-align: center;
   align-content: center;
 }
+
+.rating {
+  cursor: pointer;
+}
+
+.rating .rating-star {
+  display: inline-block;
+  position: relative;
+  padding-right: 5px;
+  margin-left: -5px;
+  color: #e3cf7a;
+  outline: none;
+}
+.rating .selected:before {
+  content: '\f005';
+}

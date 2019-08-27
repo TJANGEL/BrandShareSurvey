@@ -1,100 +1,44 @@
-$('#signup').validate({
-  success: function(label) {
-    label.addClass('valid').text('✓');
-  },
-  error: function(e) {
-    // do nothing, but register this function
-  },
-  onsubmit: false,
-  rules: {
-    phone: {
-      required: true,
-      phoneUS: true
-    }
+$(document).ready(function() {
+  function setRating(rating) {
+    $('#rating-input').val(rating);
+    // fill all the stars assigning the '.selected' class
+    $('.rating-star')
+      .removeClass('fa-star-o')
+      .addClass('selected');
+    // empty all the stars to the right of the mouse
+    $('.rating-star#rating-' + rating + ' ~ .rating-star')
+      .removeClass('selected')
+      .addClass('fa-star-o');
   }
+
+  $('.rating-star')
+    .on('mouseover', function(e) {
+      var rating = $(e.target).data('rating');
+      // fill all the stars
+      $('.rating-star')
+        .removeClass('fa-star-o')
+        .addClass('fa-star');
+      // empty all the stars to the right of the mouse
+      $('.rating-star#rating-' + rating + ' ~ .rating-star')
+        .removeClass('fa-star')
+        .addClass('fa-star-o');
+    })
+    .on('mouseleave', function(e) {
+      // empty all the stars except those with class .selected
+      $('.rating-star')
+        .removeClass('fa-star')
+        .addClass('fa-star-o');
+    })
+    .on('click', function(e) {
+      var rating = $(e.target).data('rating');
+      setRating(rating);
+    })
+    .on('keyup', function(e) {
+      // if spacebar is pressed while selecting a star
+      if (e.keyCode === 32) {
+        // set rating (same as clicking on the star)
+        var rating = $(e.target).data('rating');
+        setRating(rating);
+      }
+    });
 });
-
-$('body').on('keyup', 'form', function(e) {
-  if (e.which == 13) {
-    if (
-      $('#next').is(':visible') &&
-      $('fieldset.current')
-        .find('input, textarea')
-        .valid()
-    ) {
-      e.preventDefault();
-      nextSection();
-      return false;
-    }
-  }
-});
-
-$('#next').on('click', function(e) {
-  console.log(e.target);
-  nextSection();
-});
-
-$('form').on('submit', function(e) {
-  if ($('#next').is(':visible') || $('fieldset.current').index() < 3) {
-    e.preventDefault();
-  }
-});
-
-function goToSection(i) {
-  $('fieldset:gt(' + i + ')')
-    .removeClass('current')
-    .addClass('next');
-  $('fieldset:lt(' + i + ')').removeClass('current');
-  $('li')
-    .eq(i)
-    .addClass('current')
-    .siblings()
-    .removeClass('current');
-  setTimeout(function() {
-    $('fieldset')
-      .eq(i)
-      .removeClass('next')
-      .addClass('current active');
-    if ($('fieldset.current').index() == 3) {
-      $('#next').hide();
-      $('input[type=submit]').show();
-    } else {
-      $('#next').show();
-      $('input[type=submit]').hide();
-    }
-  }, 80);
-}
-
-function nextSection() {
-  var i = $('fieldset.current').index();
-  if (i < 3) {
-    $('li')
-      .eq(i + 1)
-      .addClass('active');
-    goToSection(i + 1);
-  }
-}
-
-$('li').on('click', function(e) {
-  var i = $(this).index();
-  if ($(this).hasClass('active')) {
-    goToSection(i);
-  } else {
-    alert('Please complete previous sections first.');
-  }
-});
-
-jQuery.validator.addMethod(
-  'phoneUS',
-  function(phone_number, element) {
-    phone_number = phone_number.replace(/\s+/g, '');
-    return (
-      this.optional(element) ||
-      (phone_number.length > 9 &&
-        phone_number.match(
-          /^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/
-        ))
-    );
-  },
-  'Please specify a valid phone number'
-);
