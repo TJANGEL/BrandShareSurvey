@@ -16,7 +16,7 @@ a {
   position: relative;
   padding-right: 5px;
   margin-left: -5px;
-  color: #e3cf7a;
+  color: rgb(23, 121, 186);
   outline: none;
 }
 .rating .selected:before {
