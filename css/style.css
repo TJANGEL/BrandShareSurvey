@@ -40,9 +40,9 @@ footer li a:hover {
   text-decoration: none;
 }
 .navigation ul {
-  justify-content: center;
-  /* text-align: center; */
-  /* align-content: center; */
+  width: 50%;
+  margin: auto;
+  margin-bottom: -15px;
 }
 
 .copyright {
